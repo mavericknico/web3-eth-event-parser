@@ -1,0 +1,13 @@
+[package]
+authors    = [ "Nick Schipano <nick@firstfoundry.co>" ]
+edition    = "2018"
+license    = "MIT"
+name       = "web3-eth-event-parser"
+repository = "https://github.com/FFNickS/web3-eth-event-parser/tree/feature/refactor-crate-layout"
+version    = "0.1.0"
+
+# See more keys and their definitions at https://doc.rust-lang.org/cargo/reference/manifest.html
+
+[dependencies]
+parser = { path = "./parser" }
+traits = { path = "./traits" }

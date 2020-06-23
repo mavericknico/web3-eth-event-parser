@@ -1,0 +1,10 @@
+[package]
+authors = [ "Nick Schipano <nick@firstfoundry.co>" ]
+edition = "2018"
+name    = "traits"
+version = "0.1.0"
+
+# See more keys and their definitions at https://doc.rust-lang.org/cargo/reference/manifest.html
+
+[dependencies]
+web3 = "0.10.0"
