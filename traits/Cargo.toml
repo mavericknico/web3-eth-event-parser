@@ -5,4 +5,4 @@ name    = "traits"
 version = "0.1.0"
 
 [dependencies]
-web3 = "0.10.0"
+web3 = "0.11.0"

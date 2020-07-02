@@ -9,9 +9,8 @@ proc-macro = true
 
 [dependencies]
 Inflector       = "0.11.4"
-ethabi          = "9.0.1"
+ethabi          = "12.0.0"
 itertools       = "0.9.0"
-primitive-types = "0.6.2"
 proc-macro2     = "1.0.18"
 quote           = "1.0.7"
 rustc-hex       = "2.1.0"
@@ -21,4 +20,4 @@ serde_syn       = "0.1.0"
 syn             = { version = "1.0.33", features = [ "extra-traits", "parsing", "printing" ] }
 tiny-keccak     = "1.5.0"
 traits          = { path = "../traits" }
-web3            = "0.10.0"
+web3            = "0.11.0"
