@@ -41,8 +41,8 @@ pub fn generate_event_parsers(tokens: TokenStream) -> TokenStream {
     // let comment = format!("// Generating event parsers from abi: {:?}", abi_path);
     // let comment_quote : TokenStream = (quote! { #comment }).into();
 
-    let abi =
-        get_abi_from_file(abi_path.as_path()).expect(format!("Error reading file: {:?}", abi_path).as_str());
+    let abi = get_abi_from_file(abi_path.as_path())
+        .expect(format!("Error reading file: {:?}", abi_path).as_str());
     let mut ts = TokenStream::new();
     // ts.extend(comment_quote);
 
@@ -82,7 +82,7 @@ fn generate_event(event: &Event) -> TokenStream {
         .map(|param| {
             let var_name = Ident::new(&to_snake_case(&param.name.to_string()), Span::call_site());
             let var_type = solidity_to_rust_type(format!("{}", param.kind).as_str());
-            quote! { #var_name: #var_type , }
+            quote! { pub #var_name: #var_type , }
         })
         .collect();
     let params_quote = quote! {#(#params)*};
@@ -185,10 +185,14 @@ fn solidity_to_parse_param_type(string: &str) -> proc_macro2::TokenStream {
         "string" => quote! { to_string().unwrap_or_default() },
         "bool" => quote! { to_bool().unwrap_or_default() },
         "address" => quote! { to_address().unwrap_or_default() },
-        "uint256" | "uint128" | "uint64" | "uint32" | "uint8" => quote! { to_uint().unwrap_or_default() },
+        "uint256" | "uint128" | "uint64" | "uint32" | "uint8" => {
+            quote! { to_uint().unwrap_or_default() }
+        }
         "int256" | "int128" | "int64" | "int32" | "int8" => quote! { to_int().unwrap_or_default() },
         "bytes32" => quote! { to_fixed_bytes().unwrap_or_default() },
-        "uint256[]" => quote! { to_array().unwrap_or_default().iter().map(|x| x.to_owned().to_uint().unwrap_or_default()).collect() },
+        "uint256[]" => {
+            quote! { to_array().unwrap_or_default().iter().map(|x| x.to_owned().to_uint().unwrap_or_default()).collect() }
+        }
         _ => panic!("Invalid type: {}", string),
     }
 }
@@ -209,7 +213,9 @@ fn solidity_to_event_param_type(string: &str) -> proc_macro2::TokenStream {
         "int32" => quote! { ::ethabi::ParamType::Int(32) },
         "int8" => quote! { ::ethabi::ParamType::Int(8) },
         "bytes32" => quote! { ::ethabi::ParamType::FixedBytes(32) },
-        "uint256[]" => quote! { ::ethabi::ParamType::Array(Box::new(::ethabi::ParamType::Uint(256))) },
+        "uint256[]" => {
+            quote! { ::ethabi::ParamType::Array(Box::new(::ethabi::ParamType::Uint(256))) }
+        }
         _ => panic!("Invalid type: {}", string),
     }
 }
